@@ -110,7 +110,7 @@ The hyper-parameters setting for these models are as follows:
 
 | Hyper-Parameter    | Search Space    | 
 | ------------------ |---------------- |
-| learning rate: **lr** |  **gcn, SimpleGCN**:{0.01, 0.001, 0.005}, **graphsage**:{0.01, 0.001}|
+| learning rate: **lr** |  **gcn**:{0.01, 0.001, 0.005}, **graphsage**:{0.01, 0.001}, **SimpleGCN**:{0.2, 0.1}|
 | hidden dimension: **hidden** | **gcn, graphsage, SimpleGCN**:{32, 32} |
 | dropout ratio: **dropout** | **gcn, graphsage, SimpleGCN**:{0.2 0.5}|
 | weight decay (l2 loss): **weight_decay** | **gcn, SimpleGCN, graphsage**:{5e-3, 5e-4}|
