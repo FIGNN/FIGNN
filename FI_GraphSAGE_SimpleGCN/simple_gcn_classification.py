@@ -59,21 +59,10 @@ class AttentionalFactorizationMachine(torch.nn.Module):
                 row.append(i), col.append(j)
         p, q = x[:, row], x[:, col]
         inner_product = p * q
-
-        # attn_scores = F.relu(self.attention(inner_product))
-        # attn_scores = F.softmax(self.projection(attn_scores), dim=1)
         fm_pairs_feature = F.relu(self.attention(inner_product))
         attn_scores = self.interaction(fm_pairs_feature, gnn_feature)
-        # BlogCatalog
-        # no dropout  0.873556911945343
-        # 0.2 dropout 0.8730071783065796
-        # Flickr
-        # 0.7009239792823792
-        # 0.005 for GraphSage
-        # attn_scores = F.dropout(attn_scores, p=self.dropouts[0], training=self.training)
-        # attn_output = torch.sum(attn_scores * inner_product, dim=1)
         attn_output = torch.sum(attn_scores * inner_product, dim=1) * 100
-        # attn_output = F.dropout(attn_output, p=self.dropouts[1],  training=self.training)
+
 
 
 
@@ -261,31 +250,6 @@ def main(args):
     g.ndata['non_zero_index'] = non_zero_index
     g.ndata['non_zero_value'] = non_zero_value
 
-
-
-    # features = g.ndata['feat']
-    # labels = g.ndata['label']
-    # train_mask = g.ndata['train_mask']
-    # val_mask = g.ndata['val_mask']
-    # test_mask = g.ndata['test_mask']
-    # in_feats = features.shape[1]
-    # n_classes = data.num_labels
-    # n_edges = data.graph.number_of_edges()
-    # print("""----Data statistics------'
-    #   #Edges %d
-    #   #Classes %d
-    #   #Train samples %dacc_here
-    #   #Val samples %d
-    #   #Test samples %d""" %
-    #       (n_edges, n_classes,
-    #           train_mask.int().sum().item(),
-    #           val_mask.int().sum().item(),
-    #           test_mask.int().sum().item()))
-    #
-    # n_edges = g.number_of_edges()
-    # # add self loop
-    # g = dgl.remove_self_loop(g)
-    # g = dgl.add_self_loop(g)
 
     # create SGC model
     n_hidden = 32
